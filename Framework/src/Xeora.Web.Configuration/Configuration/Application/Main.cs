@@ -9,11 +9,9 @@ namespace Xeora.Web.Configuration
     {
         public Main()
         {
-            this._VirtualRoot = "/";
             this.Debugging = false;
             this.Compression = true;
             this.PrintAnalytics = false;
-            this.LogHTTPExceptions = true;
             this.UseHTML5Header = false;
             this.Bandwidth = 0;
         }
@@ -23,38 +21,6 @@ namespace Xeora.Web.Configuration
 
         [JsonProperty(PropertyName = "physicalRoot", Required = Required.Always)]
         public string PhysicalRoot { get; private set; }
-
-        [DefaultValue("/")]
-        [JsonProperty(PropertyName = "virtualRoot", DefaultValueHandling = DefaultValueHandling.Populate)]
-        private string _VirtualRoot { get; set; }
-
-        private bool _IsVirtualRootFixed = false;
-        public string VirtualRoot
-        {
-            get
-            {
-                if (!this._IsVirtualRootFixed)
-                {
-                    string virtualRoot = this._VirtualRoot;
-
-                    if (string.IsNullOrEmpty(virtualRoot))
-                        virtualRoot = "/";
-
-                    virtualRoot = virtualRoot.Replace('\\', '/');
-
-                    if (virtualRoot.IndexOf('/') != 0)
-                        virtualRoot = string.Format("/{0}", virtualRoot);
-
-                    if (virtualRoot[virtualRoot.Length - 1] != '/')
-                        virtualRoot = string.Format("{0}/", virtualRoot);
-
-                    this._VirtualRoot = virtualRoot;
-                    this._IsVirtualRootFixed = true;
-                }
-
-                return this._VirtualRoot;
-            }
-        }
 
         [JsonProperty(PropertyName = "applicationRoot")]
         private string _ApplicationRoot { get; set; }
@@ -82,7 +48,7 @@ namespace Xeora.Web.Configuration
 
                     ((ApplicationRootFormat)this._ApplicationRootFormat).FileSystemImplementation = this._ApplicationRoot;
                     ((ApplicationRootFormat)this._ApplicationRootFormat).BrowserImplementation =
-                        string.Format("{0}{1}", this.VirtualRoot, this._ApplicationRoot.Substring(2).Replace('\\', '/'));
+                        string.Format("/{0}", this._ApplicationRoot.Substring(2).Replace('\\', '/'));
                 }
 
                 return this._ApplicationRootFormat;
@@ -148,10 +114,6 @@ namespace Xeora.Web.Configuration
         [DefaultValue(false)]
         [JsonProperty(PropertyName = "printAnalytics", DefaultValueHandling = DefaultValueHandling.Populate)]
         public bool PrintAnalytics { get; private set; }
-
-        [DefaultValue(true)]
-        [JsonProperty(PropertyName = "logHTTPExceptions", DefaultValueHandling = DefaultValueHandling.Populate)]
-        public bool LogHTTPExceptions { get; private set; }
 
         [DefaultValue(false)]
         [JsonProperty(PropertyName = "useHTML5Header", DefaultValueHandling = DefaultValueHandling.Populate)]

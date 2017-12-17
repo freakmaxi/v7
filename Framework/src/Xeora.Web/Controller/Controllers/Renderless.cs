@@ -21,7 +21,6 @@ namespace Xeora.Web.Controller.Directive
             MatchCollection rootPathMatches = Renderless._RootPathRegEx.Matches(this.RawValue);
             string applicationRoot =
                 Basics.Configurations.Xeora.Application.Main.ApplicationRoot.BrowserImplementation;
-            string virtualRoot = Basics.Configurations.Xeora.Application.Main.VirtualRoot;
 
             StringBuilder workingValue = new StringBuilder();
             int lastIndex = 0;
@@ -36,7 +35,7 @@ namespace Xeora.Web.Controller.Directive
                 if (matchItem.Value.IndexOf("~") > -1)
                     workingValue.AppendFormat("{0}{1}", matchItem.Value.Substring(0, 1), applicationRoot);
                 else
-                    workingValue.AppendFormat("{0}{1}", matchItem.Value.Substring(0, 1), virtualRoot);
+                    workingValue.AppendFormat("{0}/", matchItem.Value.Substring(0, 1));
 
                 lastIndex = matchItem.Index + matchItem.Length;
             }

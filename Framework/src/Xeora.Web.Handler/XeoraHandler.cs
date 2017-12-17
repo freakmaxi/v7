@@ -24,7 +24,7 @@ namespace Xeora.Web.Handler
             this.Context = context ?? throw new System.Exception("Context is required!");
             this.HandlerID = Guid.NewGuid().ToString();
 
-            // Check URL contains ApplicationRootPath (~) or SiteRootPath (¨) modifiers
+            // Check URL contains ApplicationRootPath (~) modifier
             string RootPath =
                 System.Web.HttpUtility.UrlDecode(this.Context.Request.Header.URL.Raw);
 
@@ -34,16 +34,6 @@ namespace Xeora.Web.Handler
 
                 RootPath = RootPath.Remove(0, tildeIdx + 2);
                 RootPath = RootPath.Insert(0, Configurations.Xeora.Application.Main.ApplicationRoot.BrowserImplementation);
-
-                this.Context.Request.RewritePath(RootPath);
-            }
-            else if (RootPath.IndexOf("¨/") > -1)
-            {
-                // It search something outside of XeoraCube Handler
-                int helfIdx = RootPath.IndexOf("¨/");
-
-                RootPath = RootPath.Remove(0, helfIdx + 2);
-                RootPath = RootPath.Insert(0, Basics.Configurations.Xeora.Application.Main.VirtualRoot);
 
                 this.Context.Request.RewritePath(RootPath);
             }

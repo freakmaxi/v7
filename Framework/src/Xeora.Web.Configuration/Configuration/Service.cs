@@ -11,7 +11,6 @@ namespace Xeora.Web.Configuration
             this._Address = "127.0.0.1";
             this.Port = 3381;
             this.Print = false;
-            this.SessionCookieKey = "xcsid";
         }
 
         [DefaultValue("127.0.0.1")]
@@ -27,9 +26,5 @@ namespace Xeora.Web.Configuration
         [DefaultValue(false)]
         [JsonProperty(PropertyName = "print", DefaultValueHandling = DefaultValueHandling.Populate)]
         public bool Print { get; private set; }
-
-        [DefaultValue("xcsid")]
-        [JsonProperty(PropertyName = "SessionCookieKey", DefaultValueHandling = DefaultValueHandling.Populate)]
-        public string SessionCookieKey { get; private set; }
     }
 }

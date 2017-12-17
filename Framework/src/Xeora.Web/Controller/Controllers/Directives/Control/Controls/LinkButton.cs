@@ -44,11 +44,6 @@ namespace Xeora.Web.Controller.Directive.Control
                     this.URL = this.URL.Remove(0, 2);
                     this.URL = this.URL.Insert(0, Configurations.Xeora.Application.Main.ApplicationRoot.BrowserImplementation);
                 }
-                else if (this.URL.IndexOf("¨/") == 0)
-                {
-                    this.URL = this.URL.Remove(0, 2);
-                    this.URL = this.URL.Insert(0, Configurations.Xeora.Application.Main.VirtualRoot);
-                }
 
                 // Render URL Content
                 this.URL = ControllerHelper.RenderSingleContent(this.URL, this, this.ContentArguments, requesterUniqueID);
